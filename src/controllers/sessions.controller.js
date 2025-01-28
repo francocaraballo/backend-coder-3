@@ -2,46 +2,27 @@ import userModel from "../models/user.model.js";
 import { hashPassword, comparePassword } from "../utils/bcrypt.js";
 
 export const login = async (req, res) => {
-   try {
-        const { email, password } = req.body;
+    try {
+        if(!req.user) return res.status(401).json({ error: 'Invalid credentials' });
+        req.session.user = {
+            email: req.user.email,
+            first_name: req.user.first_name,
+        }
 
-        const user = await userModel.findOne({ email }) // si no existe devuelve undefined
-        
-        if(!user) return res.status(400).json({ error: 'Invalid credentials' });
-        const isValidPassword = comparePassword(password, user.password);
-
-        if(user && isValidPassword) {
-            req.session.user = {
-                email: user.email,
-                role: user.role,
-                firstName: user.first_name,
-                lastName: user.last_name,
-                age: user.age
-            }
-            return res.status(200).json({ message: 'Login successful' });
-        } else {
-            return res.status(400).json({ error: 'Invalid credentials' });
-        } 
-   } catch (error) {
+        return res.status(200).json({ message: 'Login successful' });
+    } catch (error) {
+        console.log(error);
        res.status(500).send("Error to login: " + error);
-   }
+    }
 }
 
 export const register = async (req, res) => {
-    const { first_name, last_name, email, age, password } = req.body;
     try {
-        const newUser = {
-            first_name,
-            last_name,
-            email,
-            age,
-            password: hashPassword(password)
-        }
-
-        let message = await userModel.create( newUser );
-        res.status(201).redirect('/api/session/login');
+        if(!req.user) res.status(400).json({ error: 'User already exists' }); // Porque el passport devuelve false si el usuario ya esta registrado con ese mail
+        else res.status(201).json({ message: 'User created' });
     } catch (error) {
-        res.status(500).send("Error to create user: " + error);
+        console.log(error);
+        res.status(500).json({ error: 'Error to register: ' + error });
     }
 }
 
