@@ -1,4 +1,5 @@
 import userModel from "../models/user.model.js";
+import { hashPassword, comparePassword } from "../utils/bcrypt.js";
 
 export const login = async (req, res) => {
    try {
@@ -6,33 +7,39 @@ export const login = async (req, res) => {
 
         const user = await userModel.findOne({ email }) // si no existe devuelve undefined
         
-        if(!user) res.status(404).json({ error: "User not found" });
-        
-        if(user){
-            if(password === user.password) {
-                req.session.user = {
-                    email: user.email,
-                    role: user.role,
-                    firstName: user.first_name,
-                    lastName: user.last_name,
-                    age: user.age
-                }
-                return res.status(200).json({ message: 'Login successful' });
-            } else {
-                return res.status(400).json({ error: 'Invalid credentials' });
-            } 
-        }
-        
+        if(!user) return res.status(400).json({ error: 'Invalid credentials' });
+        const isValidPassword = comparePassword(password, user.password);
+
+        if(user && isValidPassword) {
+            req.session.user = {
+                email: user.email,
+                role: user.role,
+                firstName: user.first_name,
+                lastName: user.last_name,
+                age: user.age
+            }
+            return res.status(200).json({ message: 'Login successful' });
+        } else {
+            return res.status(400).json({ error: 'Invalid credentials' });
+        } 
    } catch (error) {
        res.status(500).send("Error to login: " + error);
    }
 }
 
 export const register = async (req, res) => {
+    const { first_name, last_name, email, age, password } = req.body;
     try {
-        const { first_name, last_name, email, age, password } = req.body;
-        let message = await userModel.create({ first_name, last_name, email, password, age });
-        res.status(201).send("User created: " + message);
+        const newUser = {
+            first_name,
+            last_name,
+            email,
+            age,
+            password: hashPassword(password)
+        }
+
+        let message = await userModel.create( newUser );
+        res.status(201).redirect('/api/session/login');
     } catch (error) {
         res.status(500).send("Error to create user: " + error);
     }
