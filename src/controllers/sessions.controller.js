@@ -1,6 +1,3 @@
-import userModel from "../models/user.model.js";
-import { hashPassword, comparePassword } from "../utils/bcrypt.js";
-
 export const login = async (req, res) => {
     try {
         if(!req.user) return res.status(401).json({ error: 'Invalid credentials' });
@@ -23,6 +20,21 @@ export const register = async (req, res) => {
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: 'Error to register: ' + error });
+    }
+}
+
+export const githubLogin = (req, res) => {
+    try {
+        if(!req.user) return res.status(401).json({ error: 'Invalid credentials' });
+        
+        req.session.user = {
+            email: req.user.email,
+            first_name: req.user.first_name,
+        }
+        return res.status(200).redirect('/home');
+    } catch (e) {
+        console.log(e)
+        res.status(500).send("Error to login: " + e);
     }
 }
 

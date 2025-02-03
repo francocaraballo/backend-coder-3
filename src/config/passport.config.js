@@ -1,7 +1,9 @@
 import passport from "passport";
 import local from "passport-local";
+import GitHubStrategy from "passport-github2";
 import userModel from "../models/user.model.js";
 import { comparePassword, hashPassword } from "../utils/bcrypt.js";
+import { CALLBACK_URL, CLIENT_ID, CLIENT_SECRET } from '../utils.js';
 
 const LocalStrategy = local.Strategy; // Defino la estrategia local
 
@@ -56,6 +58,32 @@ const initializePassport = () => {
         }
     }))
 
+    passport.use('github', new GitHubStrategy({
+        clientID: CLIENT_ID,
+        clientSecret: CLIENT_SECRET,
+        callbackURL: CALLBACK_URL
+    },
+    async (accessToken, refreshToken, profile, done) => {
+        try {
+            const user = await userModel.findOne({ email: profile._json.email });
+            if(!user) {
+                const newUser = {
+                    first_name: profile._json.name,
+                    last_name: ' ', // No se puede obtener el apellido ni la edad
+                    age: 18, // Entonces hay que rellenar estos valores
+                    email: profile._json.email,
+                    password: '1234'
+                }
+                const result = await userModel.create(newUser);
+                done(null, result);
+            } else {
+                done(null, user);
+            }
+        } catch (e) {
+            console.log(e);
+            return done(e);
+        }
+    }))
     // Pasos necesarios para trabajar via HTTP
     passport.serializeUser((user, done) => {
         done(null, user._id);

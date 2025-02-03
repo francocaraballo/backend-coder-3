@@ -10,8 +10,8 @@ import initializePassport from './config/passport.config.js';
 import { __dirname, PORT, DB_URL } from './utils.js';
 
 import sessionsRouter from './routes/sessions.routes.js';
-
-import FileStore from 'session-file-store'; // Almacena las sesiones en un archivo en forma local
+import productsRouter from './routes/products.routes.js';
+import cartsRouter from './routes/carts.routes.js';
 
 const app = express();
 
@@ -32,7 +32,7 @@ app.use(session({
     store: MongoStore.create({
         mongoUrl: DB_URL,
         mongoOptions: { }, // opciones de conexion a mongo
-        ttl: 15, 
+        ttl: 60, 
     }), // Almacena las sesiones en una base de datos de mongo
     secret: 'secreto',
     resave: true,
@@ -48,9 +48,15 @@ mongoose.connect(DB_URL)
 
 // ROUTES
 app.use('/api/session', sessionsRouter);
+app.use('/api/products', productsRouter);
+app.use('/api/carts', cartsRouter);
 
-app.get('/', (req, res) => {
-    res.render('home');
+app.get('/home', (req, res) => {
+    if(req.session.user) {
+        res.status(200).send('Welcome to home');
+    } else {
+        res.status(401).send('Unauthorized');
+    }
     
 });
 
