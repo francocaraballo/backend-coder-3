@@ -29,18 +29,16 @@ const userSchema = new Schema({
     }
 });
 
-userSchema.post("save", async function name(userCreated) {
-    try {
-        const newCart = await cartModel.create({products: []})
-        userCreated.cart = newCart._id //Referencio el id del carrito con el usuario
-        const mensaje = await userCreated.save()
-        console.log(mensaje);
+// userSchema.post("save", async function (doc) {
+//     try {
+            // if (!doc.cart) { // Evita crear múltiples carritos
+            //     const newCart = await cartModel.create({ products: [] });
+            //     await model("users").findByIdAndUpdate(doc._id, { cart: newCart._id });
+//     } catch(e) {
+//         console.log(e);
         
-    } catch(e) {
-        console.log(e);
-        
-    }
-})
+//     }
+// })
 
 const userModel = model("users", userSchema);
 
