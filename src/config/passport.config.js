@@ -110,7 +110,7 @@ const initializePassport = () => {
     }))
 
     passport.use('jwt', new JWTStrategy({
-        jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
+        jwtFromRequest: cookieExtractor,
         secretOrKey: 'secreto',
     },
     async (jwt_payload, done) => {
