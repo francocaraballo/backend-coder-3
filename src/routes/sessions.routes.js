@@ -6,12 +6,13 @@ import { login, register, viewLogin, viewRegister, githubLogin } from '../contro
 const sessionsRouter = Router();
 
 sessionsRouter.get('/login', viewLogin);
-sessionsRouter.post('/login', passport.authenticate('login'),login);
+sessionsRouter.post('/login', passport.authenticate('login'), login);
 
 sessionsRouter.get('/register', viewRegister);
-sessionsRouter.post('/register', passport.authenticate('register') ,register);
+sessionsRouter.post('/register', passport.authenticate('register'), register);
 
 sessionsRouter.get('/github', passport.authenticate('github', { scope: ['user:email'] }), async (req, res) => {});
 sessionsRouter.get('/githubcallback', passport.authenticate('github', { failureRedirect: '/login' }), githubLogin);
 
+sessionsRouter.post('/current', passport.authenticate('jwt', { session: false }), (req, res) => res.send(req.user));
 export default sessionsRouter;

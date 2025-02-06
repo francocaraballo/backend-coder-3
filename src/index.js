@@ -19,16 +19,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser("secreto"));
 
-app.engine('handlebars', engine());
-app.set('view engine', 'handlebars');
-app.set('views', __dirname + '/views');
-
 app.use(session({
     // path => ruta donde se almacenaran las sesiones
     // ttl => tiempo de vida de la sesion
     // retries => numero de intentos para guardar la sesion
     // store: new fileStorage({ path: __dirname + '/sessions', ttl: 60, retries: 1 }), // Almacena las sesiones en un archivo
-    
     store: MongoStore.create({
         mongoUrl: DB_URL,
         mongoOptions: { }, // opciones de conexion a mongo
@@ -36,18 +31,23 @@ app.use(session({
     }), // Almacena las sesiones en una base de datos de mongo
     secret: 'secreto',
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
 }));
-initializePassport();
-app.use(passport.initialize());
-app.use(passport.session());
 
 mongoose.connect(DB_URL)
 .then(() => console.log('Database connected'))
 .catch((err) => console.log(err));
 
+initializePassport();
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.engine('handlebars', engine());
+app.set('view engine', 'handlebars');
+app.set('views', __dirname + '/views');
+
 // ROUTES
-app.use('/api/session', sessionsRouter);
+app.use('/api/sessions', sessionsRouter);
 app.use('/api/products', productsRouter);
 app.use('/api/carts', cartsRouter);
 

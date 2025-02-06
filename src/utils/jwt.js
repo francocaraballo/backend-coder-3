@@ -14,10 +14,9 @@ const generateToken = () => {
 
 const user = {
     first_name:"Franco",
-    last_name: "2",
-    email: "fradasdasnco2@gmail.com",
-    password: "$2b$06$bhwsT106/7JHK67jexRF1eDVtPOBxfT51vI/0wytTsyKup8rIJlsq",
-    age: 30,
+    last_name: "Nah",
+    email: "franco@franco.com",
+    age: 25,
     role:"User"
 };
 

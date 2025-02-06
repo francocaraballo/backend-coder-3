@@ -27,8 +27,6 @@ export const getProducts = async ( req, res ) => {
             number: i + 1,
             isCurrent: i + 1 === products.page,
         }));
-        console.log(products)
-        products
         // 7. Renderizar la vista con los productos
         res.status(200).render('templates/home', { products });
         

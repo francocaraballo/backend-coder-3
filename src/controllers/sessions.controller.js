@@ -1,4 +1,4 @@
-export const login = async (req, res) => {
+export const login = async ( req, res ) => {
     try {
         if(!req.user) return res.status(401).json({ error: 'Invalid credentials' });
         req.session.user = {
@@ -13,17 +13,23 @@ export const login = async (req, res) => {
     }
 }
 
-export const register = async (req, res) => {
+export const register = async ( req, res ) => {
     try {
-        if(!req.user) res.status(400).json({ error: 'User already exists' }); // Porque el passport devuelve false si el usuario ya esta registrado con ese mail
-        else res.status(201).json({ message: 'User created' });
+        if(!req.user) {
+            // Si no hay usuario, verifica si hay un mensaje de error en req.authInfo
+            const errorMessage = req.authInfo?.message || 'Authentication failed';
+            return res.status(400).json({ error: "User already exists" });
+        }
+        
+        return res.status(201).json({ message: 'User created successful' }); 
+        
     } catch (error) {
         console.log(error);
-        res.status(500).json({ error: 'Error to register: ' + error });
+        res.status(500).json({ error: 'Error to register: ' + error.message });
     }
 }
 
-export const githubLogin = (req, res) => {
+export const githubLogin = ( req, res ) => {
     try {
         if(!req.user) return res.status(401).json({ error: 'Invalid credentials' });
         
@@ -38,10 +44,10 @@ export const githubLogin = (req, res) => {
     }
 }
 
-export const viewRegister = (req, res) => {
+export const viewRegister = ( req, res ) => {
     res.status(200).render('templates/register')
 }
 
-export const viewLogin = (req, res) => {
+export const viewLogin = ( req, res ) => {
     res.status(200).render('templates/login')
 }

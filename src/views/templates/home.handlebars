@@ -90,19 +90,22 @@
 	</div>
 		<ul class="flex justify-center gap-4">
 			{{#if products.hasPrevPage}}
-			<a href="?page={{products.prevPage}}&limit={{products.limit}}">
-				<< Anterior  </a>
+			<li>
+				<a href="?page={{products.prevPage}}&limit={{products.limit}}">
+					<< Anterior  
+				</a>
+			</li>
 			{{/if}}
 
 			{{#each products.pageNumbers}}
-            
+			
 			<li>
-                <a class="page-link" href="?page={{this.number}}&limit={{products.limit}}">{{this.number}}</a>
-            </li>
-            {{/each}}
+				<a class="page-link" href="?page={{this.number}}&limit={{../products.limit}}">{{this.number}}</a>
+			</li>
+			{{/each}}
 
 			{{#if products.hasNextPage}}
-			<a href="?page={{products.next}}&limit={{products.limit}}">
+			<a href="?page={{products.nextPage}}&limit={{products.limit}}">
 				Siguiente >> </a>
 			{{/if}}
 
