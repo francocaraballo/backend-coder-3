@@ -1,3 +1,5 @@
+import { generateToken } from '../utils/jwt.js';
+
 export const login = async ( req, res ) => {
     try {
         if(!req.user) return res.status(401).json({ error: 'Invalid credentials' });
@@ -5,8 +7,14 @@ export const login = async ( req, res ) => {
             email: req.user.email,
             first_name: req.user.first_name,
         }
-
-        return res.status(200).json({ message: 'Login successful' });
+        const token = generateToken(req.user);
+        console.log(token);
+        res.cookie('jwt', token, {
+            httpOnly: true, 
+            secure: false,
+            magAge: 1000 * 60 * 60 * 24 // 24 horas
+        });
+        return res.status(200).redirect('/home');
     } catch (error) {
         console.log(error);
        res.status(500).send("Error to login: " + error);

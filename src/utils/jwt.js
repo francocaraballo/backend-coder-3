@@ -1,8 +1,7 @@
 import jwt from 'jsonwebtoken';
 
-
 const PRIVATE_KEY = 'secreto'; // tiene que ser la misma key que se usa en passport
-const generateToken = () => {
+export const generateToken = () => {
     /*
     * param1: Objeto a guardar(user en este caso)
     * param2: clave secreta
@@ -20,4 +19,3 @@ const user = {
     role:"User"
 };
 
-console.log(generateToken(user));
