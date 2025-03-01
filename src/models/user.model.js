@@ -29,16 +29,16 @@ const userSchema = new Schema({
     }
 });
 
-// userSchema.post("save", async function (doc) {
-//     try {
-            // if (!doc.cart) { // Evita crear múltiples carritos
-            //     const newCart = await cartModel.create({ products: [] });
-            //     await model("users").findByIdAndUpdate(doc._id, { cart: newCart._id });
-//     } catch(e) {
-//         console.log(e);
+ userSchema.post("save", async function (doc) {
+     try {
+             if (!doc.cart) { // Evita crear múltiples carritos
+                 const newCart = await cartModel.create({ products: [] });
+                 await model("users").findByIdAndUpdate(doc._id, { cart: newCart._id });
+    } catch(e) {
+        console.log(e);
         
-//     }
-// })
+     }
+})
 
 const userModel = model("users", userSchema);
 
