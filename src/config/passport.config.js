@@ -109,18 +109,32 @@ const initializePassport = () => {
         }
     }))
 
+    // Extrae el token y lo valida
     passport.use('jwt', new JWTStrategy({
-        jwtFromRequest: cookieExtractor,
+        jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
         secretOrKey: 'secreto',
     },
     async (jwt_payload, done) => {
         try {
-            console.log(jwt_payload);
-            return done(null, jwt_payload);
+            return done(null, jwt_payload.user);
         } catch (error) {
             return done(error);
         }}))
         
+}
+
+// Esta funcion autoriza el acceso a las rutas, mediante una estrategia determinada
+export const passportCall = ( strategy ) => {
+    return async ( req, res, next ) => {
+        passport.authenticate( strategy, ( err, user, info ) => { // los parametros tienen ese orden por el next(err, user, info)
+            if(err) return next(err);
+            if(!user) {
+                return res.status(401).send({ error: info.message });
+            }
+            req.user = user;
+            next();
+        }) (req, res, next); // Ejecuto la funcion que retorna el middleware
+    }
 }
 
 export default initializePassport;

@@ -8,7 +8,6 @@ export const login = async ( req, res ) => {
             first_name: req.user.first_name,
         }
         const token = generateToken(req.user);
-        console.log(token);
         res.cookie('jwt', token, {
             httpOnly: true, 
             secure: false,
