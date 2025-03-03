@@ -53,7 +53,7 @@ const initializePassport = () => {
                         first_name,
                         last_name, 
                         email, 
-                        password: hashPassword(password),
+                        password: hashPassword(password.toString()),
                         age
                     })
                     return done(null, user) //Doy aviso de que genere un nuevo usuario
