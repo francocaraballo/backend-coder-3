@@ -4,7 +4,7 @@ import GitHubStrategy from "passport-github2";
 import jwt from 'passport-jwt';
 import userModel from "../models/user.model.js";
 import { comparePassword, hashPassword } from "../utils/bcrypt.js";
-import { CALLBACK_URL, CLIENT_ID, CLIENT_SECRET } from '../utils.js';
+import { CALLBACK_URL, CLIENT_ID, CLIENT_SECRET } from './config.js';
 
 const LocalStrategy = local.Strategy; // Defino la estrategia local
 const JWTStrategy = jwt.Strategy;

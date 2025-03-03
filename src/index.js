@@ -6,15 +6,16 @@ import session from 'express-session';
 import MongoStore from 'connect-mongo'; // Almacena las sesiones en una base de datos de mongo
 import passport from 'passport';
 import initializePassport from './config/passport.config.js';
+import cors from 'cors';
 
-import { __dirname, PORT, DB_URL } from './utils.js';
+import { PORT, DB_URL } from './config/config.js';
+import { __dirname } from './path.js';
 
-import sessionsRouter from './routes/sessions.routes.js';
-import productsRouter from './routes/products.routes.js';
-import cartsRouter from './routes/carts.routes.js';
+import indexRoutes from './routes/index.routes.js';
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser("secreto"));
@@ -46,10 +47,8 @@ app.engine('handlebars', engine());
 app.set('view engine', 'handlebars');
 app.set('views', __dirname + '/views');
 
-// ROUTES
-app.use('/api/sessions', sessionsRouter);
-app.use('/api/products', productsRouter);
-app.use('/api/carts', cartsRouter);
+// main router
+app.use('/', indexRoutes);
 
 app.get('/home', (req, res) => {
     if(req.session.user) {

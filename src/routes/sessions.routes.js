@@ -2,7 +2,7 @@ import { Router } from 'express';
 import passport from 'passport';
 import { login, register, viewLogin, viewRegister, githubLogin } from '../controllers/sessions.controller.js';
 import { passportCall } from '../config/passport.config.js';
-import { authorization } from '../config/middlewares.js';
+import { authorization } from '../middlewares/authorization.js';
 
 const sessionsRouter = Router();
 
