@@ -13,7 +13,7 @@ export const login = async ( req, res ) => {
             secure: false,
             magAge: 1000 * 60 * 60 * 24 // 24 horas
         });
-        return res.status(200).redirect('/home');
+        return res.status(200).json({ message: 'Login successful' });
     } catch (error) {
         console.log(error);
        res.status(500).send("Error to login: " + error);
