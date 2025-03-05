@@ -1,4 +1,6 @@
 import cartModel from '../models/cart.model.js';
+import productModel from '../models/product.model.js'
+import { engine } from 'express-handlebars';
 
 export const getCart = async (req, res) => {
     try {
@@ -125,5 +127,41 @@ export const deleteCart = async (req,res) => {
     }catch(e){
         console.log(e);
         res.status(500).render('templates/error');
+    }
+}
+
+export const purchaseCart = async (req,res) => {
+   try {
+    const { cid } = req.params;
+    const cart = await cartModel.findOne({ _id: cid });
+
+    const productsOut = await verifyStockAndUpdate( cart );
+    if(productsOut) return res.status(400).json({ products: productsOut});
+    res.status(200).send(cart);
+   } catch (e) {
+    console.log(e);
+   }
+}
+
+const verifyStockAndUpdate = async ( cart ) =>  {
+    try {
+        const products = cart.products;
+        const productsOutStock = [];
+
+        for (const productCart of products) {
+            const prodDB = await productModel.findById({ _id: productCart.id_prod._id });
+
+            const diffQuantity = prodDB.stock - productCart.quantity
+            if(diffQuantity < 0) {
+                console.log(productCart.id_prod)
+                const idProductOutStock = productCart.id_prod._id
+                productsOutStock.push(idProductOutStock);
+            } 
+        }
+        
+        return productsOutStock;
+
+    } catch (e) {
+        console.log(e);
     }
 }

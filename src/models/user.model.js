@@ -26,10 +26,14 @@ const userSchema = new Schema({
     role: {
         type: String,
         default: "user"
+    },
+    cart: {
+        type: Schema.Types.ObjectId,
+        ref: "carts"
     }
 });
 
- userSchema.post("save", async function (doc) {
+userSchema.post("save", async function (doc) {
     try {
         if (!doc.cart) { // Evita crear múltiples carritos
             const newCart = await cartModel.create({ products: [] });

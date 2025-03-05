@@ -7,7 +7,7 @@ export const generateToken = ( user ) => {
     * param2: clave secreta
     * param3: tiempo de vida del token
     */
-    const token = jwt.sign({ user }, PRIVATE_KEY, { expiresIn: '1m' });
+    const token = jwt.sign({ user }, PRIVATE_KEY, { expiresIn: '24h' });
     return token;
 }
 
