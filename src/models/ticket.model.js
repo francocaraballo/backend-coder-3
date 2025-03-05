@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import { Schema, model } from "mongoose";
 
-const ticketSchema = new mongoose.Schema({
+const ticketSchema = new Schema({
     code: {
         type: String,
         required: true,
