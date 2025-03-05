@@ -1,7 +1,14 @@
 {{! Renderizar la lista de todos los productos }}
-
+<div class="p-12">
+	{{#if user}}
+		<h3 class="text-2xl text-center font-bold">Bienvenido {{ user.first_name }}</h3>
+	{{ else }}
+		<h3 class="text-2xl text-center font-bold mb-4">Bienvenido!</h3>
+		<p class="text-xl text-center"><a class="text-blue-500 underline" href="/api/sessions/register">Registrate</a> para ver descuentos exclusivos</p>
+	{{/if}}
+</div>
 <div class='mt-3'>
-	<h1 class='text-3xl font-bold underline text-center'>
+	<h1 class='text-xl font-bold underline text-center'>
 		Productos
 	</h1>
 </div>
@@ -113,5 +120,3 @@
 {{else}}
 	<h3 class='text-center text-xl'>Products not found!</h3>
 {{/if}}
-
-<script src="/js/index.js"></script>

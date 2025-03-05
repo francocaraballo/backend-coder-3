@@ -27,11 +27,11 @@ export const getProducts = async ( req, res ) => {
             number: i + 1,
             isCurrent: i + 1 === products.page,
         }));
-        // 7. Renderizar la vista con los productos
-        res.status(200).render('templates/home', { products });
+        const user = req.user?.toObject() || null;
+        res.status(200).render('templates/home', { products, user });
         
     } catch(e) {
-        console.error('Error fetching products: ', e); // Mejor logging
+        console.error('Error fetching products: ', e);
         res.status(500).render('templates/error', { error: 'Internal Server Error' });
     }
 }

@@ -46,23 +46,23 @@ const initializePassport = () => {
             try {
                 const { first_name, last_name, email, age } = req.body
 
-                const findUser = await userModel.findOne({ email })
-                
-                if(!findUser) {
-                    const user = await userModel.create({
-                        first_name,
-                        last_name, 
-                        email, 
-                        password: hashPassword(password.toString()),
-                        age
-                    })
-                    return done(null, user) //Doy aviso de que genere un nuevo usuario
-                } else {
-                    return done(null, false) //No devuelvo error pero no genero un nuevo usuario
+                const existingUser = await userModel.findOne({ email })
+                if(existingUser) {
+                    return done(null, false, { message: "Email already register" });
                 }
+
+                const user = await userModel.create({
+                    first_name,
+                    last_name, 
+                    email, 
+                    password: hashPassword(password.toString()),
+                    age
+                });
+                return done(null, user);
+
             }catch (e) {
                 console.log(e);
-                return done(e)
+                done(e);
             }
         }));
 

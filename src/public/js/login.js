@@ -25,6 +25,6 @@ form.addEventListener('submit', async (e) => {
 
     } catch (e) {
         console.log(e);
-        alert('An error occurred. Please try again later!');
+        alert(data.error);
     }
 })
