@@ -138,23 +138,23 @@ export const purchaseCart = async (req,res) => {
     const user = await userModel.findOne({ cart: cid })
     const cartProducts = cart.products;
 
+    if(!cart) return res.status(400).json({ status: 'error', message: "Invalid cart"});
     const productsOut = await verifyStock( cart ); // Me devuelve en array con los id de los productos que no cuentan con stock
     
-    // Obtenemos el array de los productos que si van a continuar con el proceso de compra
-    const productsToBuy = cartProducts.filter(product => {
-        for(const productOut of productsOut) {
-            return product.id_prod._id !== productOut;
-        }
-    });
-    const stocksUpdated = await updateStock( productsToBuy );
-    const ticket = await createTicket( productsToBuy, user.email);
+    if(productsOut.length != 0) return res.status(400).json({ productsOutStock: productsOut });
 
-    return res.status(200).json({ status: 'success', message: 'Purchase successfully', ticket, productsUnavaible: productsOut});
+    // Actualizo el stock de los productos que van a ser comprados
+    const stocksUpdated = await updateStock( cart );
+    const ticket = await createTicket( cart, user.email);
+
+    // Vacio el carrito en la DB
+    await cartModel.findByIdAndUpdate(cid, { products: [] });
+
+    return res.status(200).json({ status: 'success', message: 'Purchase successfully', ticket });
 } catch (e) {
     console.log(e);
 }
 }
-// if(productsOut.length != 0) return res.status(400).json({ productsOutStock: productsOut });
 
 const verifyStock = async ( cart ) =>  {
     try {
