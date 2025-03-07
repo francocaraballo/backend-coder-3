@@ -3,28 +3,30 @@ import productModel from '../models/product.model.js';
 import ticketModel from '../models/ticket.model.js';
 import userModel from '../models/user.model.js';
 
-export const getCart = async (req, res) => {
+export const getCart = async ( req, res ) => {
     try {
         const cartId = req.params.cid;
         const cart = await cartModel.findOne({_id: cartId});
         if(cart) res.status(200).json(cart);
-        else res.status(404).send("Carrito no existe");
+        else res.status(404).json("Cart not found");
     }catch(e){
-        res.status(500).render('templates/error', {e});
+        console.log(e);
+        res.status(500).render('templates/error', { e });
     }
 }
 
-export const createCart = async (req, res) => {
+export const createCart = async ( req, res ) => {
     try {
         const result = await cartModel.create({ products: [] });
-        res.status(201).send(result);
+        return res.status(201).json(result);
     }catch(e){
         console.log(e);
         res.status(500).render('templates/error');
     }
 }
 
-export const insertProductCart = async (req, res) => {
+// Agrega un producto al carrito, si ya se encuentra aumenta la cantidad del mismo
+export const insertProductCart = async ( req, res ) => {
     try {
         const cartId = req.params.cid;
         const productId = req.params.pid;
@@ -36,13 +38,13 @@ export const insertProductCart = async (req, res) => {
             if(index != -1 ) {
                 cart.products[index].quantity = quantity;
             } else {
-                cart.products.push({id_prod: productId, quantity: quantity});
+                cart.products.push({ id_prod: productId, quantity: quantity });
             }
 
             const result = await cartModel.findByIdAndUpdate(cartId, cart);
-            return res.status(200).send(result);
-        }else {
-            res.status(404).send("Cart does not exists");
+            return res.status(200).json(result);
+        } else {
+            return res.status(404).send("Cart does not exists");
         }
     }catch(e){
         console.log(e);
@@ -50,38 +52,41 @@ export const insertProductCart = async (req, res) => {
     }
 }
 
-export const updateProductCart = async (req,res) => {
+// Setea un array de products a un cart
+export const updateProductsCart = async ( req, res ) => {
     try {
         const cartId = req.params.cid;
-        const { newProduct } = req.body;
-        const cart = await cartModel.findOne({_id: cartId});
-        cart.products = newProduct;
+        const { products } = req.body;
+        const cart = await cartModel.findOne({ _id: cartId });
+        cart.products = products;
         cart.save();
-        res.status(200).send(cart);
+        res.status(200).json(cart);
     }catch(e){
         console.log(e);
         res.status(500).render('templates/error');
     }
 }
 
-export const updateQuantityProductCart = async (req,res) => {
+// Setea el atributo quantity de un producto dentro de un carrito
+export const updateQuantityProductCart = async ( req, res ) => {
     try {
         const cartId = req.params.cid;
         const productId = req.params.pid;
         const { quantity } = req.body;
-        const cart = await cartModel.findOne({_id: cartId});
-        if( cart ) {
-            const index = cart.products.findIndex(prod => prod._id == productId);
+        const cart = await cartModel.findOne({ _id: cartId });
 
-            if(index != -1 ) {
-                cart.products[index].quantity = quantity;
-                cart.save();
-                res.status(200).send(cart);
-            } else {
-                res.status(404).send("Product not found");
-            }
-        }else {
-            res.status(404).send("Cart does not exists");
+        if(!cart) return res.status(404).send("Cart does not exists");
+        console.log(cart)
+
+        // const index = cart.products.findIndex(prod => prod.id_prod._id === productId);
+        const index = cart.products.findIndex(prod => prod.id_prod._id == productId);
+        console.log(index)
+        if(index != -1 ) {
+            cart.products[index].quantity = quantity;
+            cart.save();
+            res.status(200).send(cart);
+        } else {
+            res.status(404).send("Product not found");
         }
     }catch(e){
         console.log(e);
@@ -94,38 +99,36 @@ export const deleteProductCart = async (req,res) => {
         const cartId = req.params.cid;
         const productId = req.params.pid;
         const cart = await cartModel.findOne({ _id: cartId });
-        if(cart) {
-            const index = cart.products.findIndex(prod => prod._id == productId);
 
-            if(index != -1 ) {
-                cart.products.splice(index, 1);
-                cart.save();
-                res.status(200).send(cart);
-            } else {
-               res.status(404).send("Product not found");
-            }
+        if(!cart) return res.status(404).json({ message: "Cart not found" });
+        const index = cart.products.findIndex(product => product.id_prod._id == productId);
 
-        }else {
-            res.status(404).send("Cart does not exists");
+        if(index != -1 ) {
+            cart.products.splice(index, 1);
+            cart.save();
+            return res.status(200).json({ status: "success", message: "Product removed" });
+        } else {
+            return res.status(404).json({ status: "error" ,message: "Product not found" });
         }
-    }catch(e){
+    } catch(e) {
         console.log(e);
         res.status(500).render('templates/error');
     }
 }
 
-export const deleteCart = async (req,res) => {
+export const deleteCart = async ( req, res ) => {
     try {
         const cartId = req.params.cid;
         const cart = await cartModel.findOne({_id: cartId});
-        if(cart ){
+
+        if(!cart) return res.status(404).send("Cart not found");
+
+        if(cart) {
             cart.products = [];
             cart.save();
-            res.status(200).send(cart);
-        } else {
-            res.status(404).send("Cart does not exists");
+            res.status(200).json({ status: "success", payload: cart });
         }
-    }catch(e){
+    } catch(e) {
         console.log(e);
         res.status(500).render('templates/error');
     }
@@ -137,7 +140,6 @@ export const purchaseCart = async (req,res) => {
     const cart = await cartModel.findOne({ _id: cid });
     const user = await userModel.findOne({ cart: cid })
     const cartProducts = cart.products;
-    console.log(cartProducts)
 
     if(!cart) return res.status(400).json({ status: 'error', message: "Invalid cart"});
     if(!cartProducts.length) return res.status(400).json({ message: 'Empty cart, add products to continue'})

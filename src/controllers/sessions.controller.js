@@ -24,10 +24,8 @@ export const register = async ( req, res ) => {
     try {
         if(!req.user) {
             // Si no hay usuario, verifica si hay un mensaje de error en req.authInfo
-            const errorMessage = req.authInfo?.message || 'Authentication failed';
             return res.status(400).json({ error: "User already exists" });
         }
-        
         return res.status(201).json({ message: 'User created successful' }); 
         
     } catch (error) {
