@@ -1,0 +1,14 @@
+<div class="">
+    <h3>Detalles del producto</h3>
+    <div class="product-details">
+        <div class="product-details__image">
+            <img src="{{image}}" alt="{{name}}">
+        </div>
+        <div class="product-details__info">
+            <h4>{{product.title}}</h4>
+            <p>{{product.description}}</p>
+            <p>Precio: ${{product.price}}</p>
+            <p>Stock: {{product.stock}}</p>
+            <button class="btn btn-primary" data-product-id="{{product._id}}">Agregar al carrito</button>
+        </div>
+</div>

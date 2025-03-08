@@ -31,8 +31,8 @@ export const getProducts = async ( req, res ) => {
         res.status(200).render('templates/home', { products, user });
         
     } catch(e) {
-        console.error('Error fetching products: ', e);
-        res.status(500).render('templates/error', { error: 'Internal Server Error' });
+        console.error(e);
+        res.status(500).render('templates/error');
     }
 }
 
@@ -40,10 +40,11 @@ export const getProduct = async ( req, res ) => {
     try {
         const idProduct = req.params.pid;
         const product = await productModel.findById(idProduct);
-        if (product)
-            res.status(200).render('templates/product', { prod: product });
-        else
-            res.status(404).render('templates/error', {e: "Producto no encontrado"});
+
+        if(!product) return res.status(404).json({ status: "error", message: "Product not found"});
+
+        const productParse = product.toObject();
+        return res.status(200).render('templates/productDetails', { product: productParse });
     } catch(e) {
         console.log(e);
         res.status(500).render('templates/error', {e});
@@ -52,12 +53,32 @@ export const getProduct = async ( req, res ) => {
 
 export const createProduct = async ( req, res ) => {
     try {
-        const product = req.body;
+        const { title, 
+            description, 
+            category, 
+            status, 
+            price, 
+            stock, 
+            code, 
+            thumbnail } = req.body;
+        
+            const product = { title, 
+            description, 
+            category, 
+            status, 
+            price, 
+            stock, 
+            code, 
+            thumbnail };
+        
+        if(!title || !description || !category || !status || !price || !stock || !code || !thumbnail) {
+            return res.status(400).json({ status: "error", message: "Incompletes fields"});
+        }
         const result = await productModel.create(product);
-        res.status(201).send("Product created");
+        res.status(201).json({ status: "success", message: "Product created"});
     }catch(e) {
         console.log(e);
-        res.status(500).send(e);
+        res.status(500).render('templates/error');
     }
 }
 
@@ -67,8 +88,8 @@ export const updateProduct = async ( req, res ) => {
         const updateProduct = req.body;
         const result = await productModel.findByIdAndUpdate(idProd, updateProduct);
 
-        if (result) res.status(200).redirect('templates/home', { result });
-        else res.status(404).render('templates/error', {e: "Product not found"});
+        if(!result) return res.status(404).json({ status: "error", message: "Product not found"});
+        return res.status(200).json({ status: "success", message: "Product updated", id: idProd });
     }catch(e) {
         console.log(e);
         res.status(500).render('templates/error', {e});
@@ -77,11 +98,12 @@ export const updateProduct = async ( req, res ) => {
 
 export const deleteProduct = async ( req, res ) => {
     try {
-        const idProduct = req.params.pid;
-        const result = await productModel.findByIdAndDelete(idProduct);
-        if (result) res.status(200).redirect('templates/home', { result });
-        else res.status(404).render('templates/error', {e: "Product not found"});
-    }catch(e) {
-        res.status(500).render('templates/error', {e});
+        const idProd = req.params.pid;
+        const result = await productModel.findByIdAndDelete(idProd);
+        if (result) return res.status(200).json({ status: "success", message: "Product deleted", id: idProd });
+        return res.status(404).json({ status: "error", message: "Product not found"});
+    } catch(e) {
+        console.log(e);
+        res.status(500).render('templates/error', { e });
     }
 }

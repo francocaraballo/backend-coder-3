@@ -122,12 +122,10 @@ export const deleteCart = async ( req, res ) => {
         const cart = await cartModel.findOne({_id: cartId});
 
         if(!cart) return res.status(404).send("Cart not found");
-
-        if(cart) {
-            cart.products = [];
-            cart.save();
-            res.status(200).json({ status: "success", payload: cart });
-        }
+        
+        cart.products = [];
+        cart.save();
+        res.status(200).json({ status: "success", payload: cart });
     } catch(e) {
         console.log(e);
         res.status(500).render('templates/error');
