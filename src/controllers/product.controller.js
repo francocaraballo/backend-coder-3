@@ -28,7 +28,8 @@ export const getProducts = async ( req, res ) => {
             isCurrent: i + 1 === products.page,
         }));
         const user = req.user?.toObject() || null;
-        res.status(200).render('templates/home', { products, user });
+        const isAdmin = req.user?.role === 'admin' || false;
+        res.status(200).render('templates/home', { products, user, isAdmin });
         
     } catch(e) {
         console.error(e);
