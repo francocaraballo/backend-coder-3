@@ -19,7 +19,9 @@ export const usersMocks =  async (n) => {
         const user = {
             lastName: faker.person.lastName(),
             firstName: faker.person.firstName(),
-            password: bcrypt.hashSync('coder123', 10)
+            password: bcrypt.hashSync('coder123', 10),
+            role: faker.helpers.arrayElement(['user', 'admin']),
+            pets: []
         }
         users.push(user);
     }
