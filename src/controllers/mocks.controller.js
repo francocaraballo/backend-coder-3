@@ -17,6 +17,7 @@ export const usersMocks =  async (n) => {
     const users = []
     for (let i = 0; i < n; i++) {
         const user = {
+            id: faker.database.mongodbObjectId(),
             lastName: faker.person.lastName(),
             firstName: faker.person.firstName(),
             password: bcrypt.hashSync('coder123', 10),

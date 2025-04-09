@@ -1,5 +1,6 @@
 import { Router } from "express";
-import { petsMocks, usersMocks } from '../controllers/mocks.controller.js'
+import { petsMocks, usersMocks } from '../controllers/mocks.controller.js';
+import { writeData } from "../data/data.service.js";
 
 const router = Router();
 
@@ -16,8 +17,13 @@ router.get('/mockingusers', async (req, res) => {
 
 })
 
-router.post('/generateData', () => {
-    console.log('data generada')
+router.post('/generateData', async (req, res) => {
+    try {
+        const users = await usersMocks();
+        const pets = petsMocks();
+    } catch (error) {
+        console.log(error);
+    }
 })
 
 export default router;
