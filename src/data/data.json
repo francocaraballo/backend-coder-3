@@ -1,0 +1,106 @@
+{
+  "users": [
+    {
+      "id": "411dc4c3e8edbade48e28c5b",
+      "lastName": "Heller",
+      "firstName": "Travis",
+      "password": "$2b$10$cPz5bd74mQ/R/quzWdRxGuFTXwyL8RiwAwxJD0D7vaPf3VWPKgm/e",
+      "role": "admin",
+      "pets": []
+    },
+    {
+      "id": "2eb7aa831aa4f9298dadf224",
+      "lastName": "Klein",
+      "firstName": "Pat",
+      "password": "$2b$10$1HHEVrzSU.9S32sxrGocRuBtMRj2cD2GVpsqqD1pV1nWbAkwuf5AS",
+      "role": "user",
+      "pets": []
+    },
+    {
+      "id": "bd988d0ed52b26ddc817d2ed",
+      "lastName": "Donnelly",
+      "firstName": "Rebeca",
+      "password": "$2b$10$.UsUR0SYS0/WDfaLh95xteAjWfayrCErJT84N3XMECnIoltAjQ6HS",
+      "role": "user",
+      "pets": []
+    },
+    {
+      "id": "eba9db8d84abfbedf8a8c338",
+      "lastName": "Cormier",
+      "firstName": "Stella",
+      "password": "$2b$10$IzO6QIqIlpv68LWQANisS.r.MkGxgAJhydhOSunL4jzWXC9.ZVUiO",
+      "role": "user",
+      "pets": []
+    },
+    {
+      "id": "ca76de312f6ec73c69b1ebd9",
+      "lastName": "Lynch",
+      "firstName": "Audreanne",
+      "password": "$2b$10$Ig8i6Scv1BNjnil7pkOuruhvjTQNhZUrNXpX1jE/vo3UtAw8ULLWq",
+      "role": "user",
+      "pets": []
+    },
+    {
+      "id": "516858c33b6b24b9afa2f574",
+      "lastName": "Weber",
+      "firstName": "Carrie",
+      "password": "$2b$10$tpI4egpSZ9BVYmxFFbVlaeoKMQN4oUglYbc1lWUVy5rTXMGw5ILt.",
+      "role": "user",
+      "pets": []
+    },
+    {
+      "id": "cb0b4a80da678aceead0a0d5",
+      "lastName": "Anderson",
+      "firstName": "Horace",
+      "password": "$2b$10$SxQjPhmywyBLdckV2jM5deyCiM22QY/JXaNu4oJUJphbvlShXzYpm",
+      "role": "user",
+      "pets": []
+    },
+    {
+      "id": "841ab86ada42f50fda45b4ed",
+      "lastName": "Toy",
+      "firstName": "Mohammed",
+      "password": "$2b$10$cvj63gF5zDLfiVysJhr5euiCZdm8n7wg1xmw5Y/iyJU2zJtG0gkkS",
+      "role": "admin",
+      "pets": []
+    },
+    {
+      "id": "1d9e2f6bdfce51211e710b51",
+      "lastName": "Jaskolski",
+      "firstName": "Jeanie",
+      "password": "$2b$10$GGO3o2oQi1oXD/1tPhhlsu9psnyvjrdxdXk5ey/RieIERa4RjJRi2",
+      "role": "user",
+      "pets": []
+    },
+    {
+      "id": "72c9ac71bc819dfc5b2daba1",
+      "lastName": "Schneider",
+      "firstName": "Nikko",
+      "password": "$2b$10$8gRQiH3UmkipnqJYXQT/U.eGpg1YY11EQO1rLRGDq4AZNhhkyTMRa",
+      "role": "admin",
+      "pets": []
+    }
+  ],
+  "pets": [
+    {
+      "type": "horse",
+      "name": "Clifton"
+    },
+    {
+      "type": "shark",
+      "name": "Thea"
+    },
+    {
+      "type": "hippopotamus",
+      "name": "Albert"
+    },
+    {
+      "type": "gorilla",
+      "name": "Tanya"
+    },
+    {
+      "type": "rabbit",
+      "name": "Elva"
+    }
+  ]
+}

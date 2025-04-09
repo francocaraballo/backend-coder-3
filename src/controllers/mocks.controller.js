@@ -13,7 +13,7 @@ export const petsMocks = (n) => {
     return pets;
 }
 
-export const usersMocks =  async (n) => {
+export const usersMocks = (n) => {
     const users = []
     for (let i = 0; i < n; i++) {
         const user = {

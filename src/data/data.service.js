@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from 'fs/promises';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
@@ -8,9 +8,9 @@ const __dirname = path.dirname(__filename);
 const DATA_PATH = path.join(__dirname, 'data.json');
 
 // Leer los datos del archivo
-export function readData() {
+export async function readData() {
     try {
-        const data = fs.readFileSync(DATA_PATH, 'utf-8');
+        const data = await fs.readFile(DATA_PATH, 'utf-8');
         return JSON.parse(data);
     } catch (error) {
         console.error('Error leyendo el archivo:', error);
@@ -18,9 +18,9 @@ export function readData() {
     }
 }
 
-export function writeData(data) {
+export async function writeData(data) {
     try {
-        fs.writeFileSync(DATA_PATH, JSON.stringify(data, null, 2));
+        await fs.writeFile(DATA_PATH, JSON.stringify(data, null, 2));
     } catch (error) {
         console.error('Error escribiendo en el archivo:', error);
     }
