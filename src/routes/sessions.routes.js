@@ -3,11 +3,12 @@ import passport from 'passport';
 import { login, register, viewLogin, viewRegister, githubLogin } from '../controllers/sessions.controller.js';
 import { passportCall } from '../config/passport.config.js';
 import { authorization } from '../middlewares/authorization.js';
+import { loggerSessions } from '../utils/logger.js';
 
 const sessionsRouter = Router();
 
 sessionsRouter.get('/login', viewLogin);
-sessionsRouter.post('/login', passport.authenticate('login'), login);
+sessionsRouter.post('/login', passport.authenticate('login'), login, loggerSessions );
 
 sessionsRouter.get('/register', viewRegister);
 sessionsRouter.post('/register', passportCall('register'), register);

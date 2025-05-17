@@ -7,6 +7,7 @@ import MongoStore from 'connect-mongo'; // Almacena las sesiones en una base de 
 import passport from 'passport';
 import initializePassport from './config/passport.config.js';
 import cors from 'cors';
+import { addLoggerHttp, logger } from './utils/logger.js';
 
 import { PORT, DB_URL } from './config/config.js';
 import { __dirname } from './path.js';
@@ -19,6 +20,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser("secreto"));
+app.use(addLoggerHttp)
 
 app.use(session({
     // path => ruta donde se almacenaran las sesiones
@@ -37,7 +39,10 @@ app.use(session({
 
 mongoose.connect(DB_URL)
 .then(() => console.log('Database connected'))
-.catch((err) => console.log(err));
+.catch((error) => {
+    logger.error({ message: "Error to conect DB", error});
+    process.exit(1);
+});
 
 initializePassport();
 app.use(passport.initialize());
@@ -55,10 +60,11 @@ app.get('/home', (req, res) => {
         res.status(200).send('Welcome to home');
     } else {
         res.status(401).send('Unauthorized');
+        req.logger.warning({ message: "User not authenticated"})
     }
     
 });
 
 app.listen(PORT, () => {
-    console.log("first app listening on port " + PORT);
+    console.log("App listening on port " + PORT);
 })
