@@ -1,0 +1,105 @@
+paths:
+  /api/carts/{cid}:
+    get:
+      summary: Obtiener un carrito por ID
+      tags:
+        - Carts
+      responses:
+        '200':
+          description: Carrito encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/Cart'
+    post:
+      summary: Crear un carrito
+      tags:
+        - Carts
+      responses:
+        '201':
+          description: Carrito creado
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/Cart'
+    put:
+      summary: Setea un array de productos al carrito
+      tags:
+        - Carts
+      responses:
+        '200':
+          description: Carrito actualizado
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/Cart'
+
+  /{cid}/products/{pid}:
+    post:
+      summary: Agregar un producto al carrito
+      tags:
+        - Carts
+      responses:
+        '200':
+          description: Producto agregado al carrito
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/Cart'
+    delete:
+      summary: Eliminar un producto del carrito
+      tags:
+        - Carts
+      responses:
+        '200':
+          description: Producto eliminado del carrito
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/Cart'
+    put:
+      summary: Actualizar la cantidad de un producto en el carrito
+      tags:
+        - Carts
+      responses:
+        '200':
+          description: Cantidad del producto actualizada
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#/components/schemas/Cart'
+
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        _id:
+          type: string
+          example: "6630e2d1a58b3d1f34c8d26c"
+        products:
+          type: array
+          items:
+            type: object
+            properties:
+              id_prod:
+                type: string
+                format: uuid
+                description: ID del producto referenciado
+                example: "662fd0b9a6e329001ee0e7b2"
+              quantity:
+                type: integer
+                description: Cantidad del producto
+                example: 2

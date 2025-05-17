@@ -60,7 +60,7 @@ app.get('/home', (req, res) => {
         res.status(200).send('Welcome to home');
     } else {
         res.status(401).send('Unauthorized');
-        req.logger.warning({ message: "User not authenticated"})
+        logger.warning({ message: "User not authenticated"})
     }
     
 });
