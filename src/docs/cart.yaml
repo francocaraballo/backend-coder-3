@@ -4,6 +4,13 @@ paths:
       summary: Obtiener un carrito por ID
       tags:
         - Carts
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+          description: ID del carrito que se desea obtener
       responses:
         '200':
           description: Carrito encontrado
@@ -13,6 +20,19 @@ paths:
                 type: object
                 items:
                   $ref: '#/components/schemas/Cart'
+        '404':
+          description: Carrito no encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "error"
+                  message:
+                    type: string
+                    example: "Carrito no encontrado"
     post:
       summary: Crear un carrito
       tags:
@@ -26,6 +46,19 @@ paths:
                 type: object
                 items:
                   $ref: '#/components/schemas/Cart'
+        '500':
+          description: Error al crear el carrito
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    example: "error"
+                  message:
+                    type: string
+                    example: "Error al crear el carrito"
     put:
       summary: Setea un array de productos al carrito
       tags:
