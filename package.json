@@ -25,14 +25,15 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "mocha",
-    "dev": "node --watch src/app.js"
+    "test": "mocha test/routes/products.test.js",
+    "dev": "node --watch src/index.js"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "devDependencies": {
     "chai": "^5.2.0",
-    "mocha": "^11.3.0"
+    "mocha": "^11.3.0",
+    "supertest": "^7.1.1"
   }
 }
