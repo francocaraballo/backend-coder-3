@@ -5,3 +5,4 @@
 {"level":"warning","message":"User not authenticated","timestamp":"2025-05-17T04:08:48.547Z"}
 {"error":{"code":8000,"codeName":"AtlasError","connectionGeneration":0,"errorLabelSet":{},"errorResponse":{"code":8000,"codeName":"AtlasError","errmsg":"bad auth : authentication failed","ok":0},"ok":0},"level":"error","message":"Error to conect DB","timestamp":"2025-05-18T20:21:35.954Z"}
 {"error":{"code":8000,"codeName":"AtlasError","connectionGeneration":0,"errorLabelSet":{},"errorResponse":{"code":8000,"codeName":"AtlasError","errmsg":"bad auth : authentication failed","ok":0},"ok":0},"level":"error","message":"Error to conect DB","timestamp":"2025-05-18T20:25:49.555Z"}
+{"error":{"code":8000,"codeName":"AtlasError","connectionGeneration":0,"errorLabelSet":{},"errorResponse":{"code":8000,"codeName":"AtlasError","errmsg":"bad auth : authentication failed","ok":0},"ok":0},"level":"error","message":"Error to conect DB","timestamp":"2025-05-18T22:22:35.527Z"}

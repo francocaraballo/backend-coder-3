@@ -26,7 +26,7 @@
   "type": "module",
   "scripts": {
     "test": "mocha test/routes/products.test.js",
-    "dev": "node --watch src/index.js"
+    "dev": "node --watch src/app.js"
   },
   "author": "",
   "license": "ISC",

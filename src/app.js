@@ -41,7 +41,7 @@ mongoose.connect(DB_URL)
 .then(() => console.log('Database connected'))
 .catch((error) => {
     logger.error({ message: "Error to conect DB", error});
-    process.exit(1);
+    // process.exit(1);
 });
 
 initializePassport();
