@@ -53,7 +53,7 @@ Podés correr el proyecto directamente usando Docker. La imagen está publicada 
 📦 Docker Hub: https://hub.docker.com/r/francocrbl/my-app
 
 ## Comando para correr con Docker
-    ```bash
+    ```
     docker pull francocaraballo/backend-coder-3
     docker run -p 8080:8080 francocaraballo/backend-coder-3
     ```
