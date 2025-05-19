@@ -30,11 +30,13 @@ Este es un proyecto de backend desarrollado como parte del curso de Coderhouse. 
    ```bash
    git clone https://github.com/francocaraballo/backend-coder-3.git
    cd backend-coder-3
+   ```
 
 2. Instala las dependencias:
 
     ```bash
     npm install
+    ```
 
 3. onfigurá las variables de entorno en un archivo .env (puede incluir puerto, URI de Mongo, claves JWT, etc.).
 
@@ -42,6 +44,7 @@ Este es un proyecto de backend desarrollado como parte del curso de Coderhouse. 
 
     ```bash
     npm run dev
+    ```
         
 ## Uso con Docker
 Podés correr el proyecto directamente usando Docker. La imagen está publicada en Docker Hub.
@@ -50,9 +53,9 @@ Podés correr el proyecto directamente usando Docker. La imagen está publicada 
 📦 Docker Hub: https://hub.docker.com/r/francocrbl/my-app
 
 ## Comando para correr con Docker
-
     ```bash
     docker pull francocaraballo/backend-coder-3
     docker run -p 8080:8080 francocaraballo/backend-coder-3
+    ```
 
 Asegurate de tener configuradas las variables de entorno necesarias mediante un archivo .env o con el parámetro -e en el comando docker run.
