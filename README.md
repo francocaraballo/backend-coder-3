@@ -1,6 +1,7 @@
 # Backend Coder 3
 
 Este es un proyecto de backend desarrollado como parte del curso de Coderhouse. Utiliza Node.js, Express y MongoDB para gestionar una API RESTful orientada a un ecommerce con productos, carritos y autenticación de usuarios.
+Podes probar la aplicacion en https://my-app-3vvy.onrender.com/api/products
 
 ## Tecnologías utilizadas
 
