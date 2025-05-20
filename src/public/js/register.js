@@ -12,7 +12,7 @@ form.addEventListener('submit', async (e) => {
     }
 
     try {
-        const response = await fetch('http://localhost:8080/api/sessions/register', {
+        const response = await fetch('https://my-app-3vvy.onrender.com/api/sessions/register', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -23,7 +23,7 @@ form.addEventListener('submit', async (e) => {
         console.log(result)
         form.reset();
         alert('User registered successfully');
-        window.location.href = 'http://localhost:8080/api/sessions/login';
+        window.location.href = 'https://my-app-3vvy.onrender.com/api/sessions/login';
         
         
     } catch (error) {
