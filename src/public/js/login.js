@@ -12,7 +12,7 @@ form.addEventListener('submit', async (e) => {
     }
 
     try {
-        const res = await fetch('http://localhost:8080/api/sessions/login', {
+        const res = await fetch('https://my-app-3vvy.onrender.com/api/sessions/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
