@@ -25,7 +25,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "mocha test/routes/products.test.js",
+    "test": "mocha test/routes/sessions.test.js",
     "dev": "node --watch src/app.js"
   },
   "author": "",
